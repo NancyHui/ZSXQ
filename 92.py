@@ -60,63 +60,89 @@ def ship(board_in):
     """
      1*1 一个格子：一条船或船的左上角
      :param board_in: list 地图
-     :return:一个格子 list [row, col]
+     :return:一个格子 tuple (row, col)
      """
-    row_col = []
+    # row_col = []
 
     row = random_row(board_in)
     col = random_col(board_in)
-    row_col.append(row)
-    row_col.append(col)
-    return row_col
+    # row_col.append(row)
+    # row_col.append(col)
+    return row, col
 
 
-# 一个船有多个格子，不能超出边界
-def mul_ship(board_in, m, n):
+# 一个船有m*n个格子，不能超出边界
+def large_ship(board_in, m, n):
     """
-    m*n 的串
+    一条船：m*n
     :param board_in: list 地图
-    :param m:
-    :param n:
-    :return:
+    :param m: 行
+    :param n: 列
+    :return: 船所在格子的列表 list 每一个格子用tuple表示
     """
     ss = []
-    # 随机产生一条小船或大船的左上角
+    # 随机产生一条小船或大船的左上角 tuple
     r, c = ship(board_in)
+    print(r,c)
     # 判断是否超出边界
-    if r + m <= len(board_in)-1 and c + n <= len(board_in):
-        for i in range(r, m):
-            for j in range(c, n):
+    if r + m <= len(board_in) and c + n <= len(board_in):
+        for i in range(r, r + m):
+            for j in range(c, c + n):
                 # s = []
                 # s.append(i)
                 # s.append(j)
                 s = i, j
                 ss.append(s)
-        return ss
+        # return ss
     else:
         print("Notice: There is not enough space for such ship in the map!")
+        # return ss
+    return ss
 
 
+# print(large_ship(board, 4, 3))
 
 
+# 一种类型多条船 且不重复
+def ships(board_in, m, n, t):
+    """
+    t条船 可能重复
+    :param board_in: list 地图
+    :param m: 行数
+    :param n: 列数
+    :param t: 船数
+    :return: list 子列表为一条船
+    """
+    sss = []
+    while len(sss) < t:
+        single_ship = large_ship(board_in, m, n)
+        if single_ship:
+        #   判断船是否有重复
+        #   非首次添加，判断是否重复
+            if sss:
+                for y in single_ship:
+                    for x in sss:
+                        # 如果出现重复，则重新生成船；
+                        # 未出现重复，保存
+                        if y in x:
+                            print("{} in {}".format(y, x))
+                            break
+                sss.append(single_ship)
+            # 首次直接添加
+            else:
+                sss.append(single_ship)
 
-# def ships(board_in, n):
-#     """
-#     n条船 可能重复
-#     :param board_in: list 地图
-#     :param n: 船数
-#     :return: list 子列表为一条船
-#     """
-#     ships = []
-#     for i in range(n):
-#         ships.append(ship(board_in))
-#     print(ships)
-#
-#
+        # 当large_ship()中超过界限的时候会返回[]，为保证sss中没有空列表
+        # if single_ship:
+        #     sss.append(single_ship)
+    return sss
+
+
 # print(ship(board))
-# ships(board, 5)
-#
-#
+print(ships(board, 2, 2, 5))
+# print(len(ships(board, 2, 2, 5)))
+
+
 # # 船不能重复
 # def nonrepetive_ships(board_in, n):
 #     """
