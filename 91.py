@@ -122,6 +122,7 @@ print(nonrepetive_ships(board, 10))
 def game(ships, n):
     """
     n次机会 击中战舰
+    :param ships: 所有的船
     :param n: 机会
     :return:
     """

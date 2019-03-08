@@ -1,9 +1,11 @@
 """
-附加题二
+附加题四
 10*10格子
 n条船，且不能重复，不能超出边界
 三种类型：1*1(3) 2*2(3) 4*3(1)
 10次击中就获得胜利；也可以再尝试玩一局
+积分功能：1*1 5分；2*2 10分；4*3 20分
+游戏结束时，提示游戏得分。
 """
 from random import randint
 
@@ -110,20 +112,23 @@ def is_repeat(t, d):
     判断船是否重复，若重复，返回True
     :param t:所有船的集合 list
     :param d:一条船 list
-    :return: 标志，True or False
-    e.g.  t = [[(1, 2), (3, 4)], [(5, 6), (7, 8)]]
-          d = [(4, 2), (3, 4), (5, 6)]
-    t = []时，返回False
+    :return: 重复的船 list
+    有重复：len() > 0 ====True
+    无重复：len() = 0 空列表 ====False
     """
+
+    ss = []
     # e是m*n个格子 以船为单位
     for e in t:
-        #  a是tuple，一个格子
+        #  a是tuple，一个格子（一条船的一个坐标）
         for a in d:
             if a in e:
                 print("{} in {}".format(a, e))
-
-                return True
-    return False
+                ss = e
+                # 执行了return之后，后面的语句都不知行了
+                # 此处return：如果找到重复，则立即返回重复的船
+                return ss
+    return ss
 
 
 # 一种类型多条船 且不重复
@@ -142,6 +147,7 @@ def ships(board_in, m, n, t):
         # 当large_ship()中超过界限的时候会返回[]，为保证sss中没有空列表
         if single_ship:
             # 判断船是否有重复
+            # if、while 后面的list不为空的时候返回True
             if is_repeat(sss, single_ship):
                 print("Repeat")
                 continue
@@ -152,7 +158,7 @@ def ships(board_in, m, n, t):
             # #   非首次添加，判断是否重复
             # """
             # if sss:
-            #     if is_repeat(sss, single_ship):
+            #     if is_repeat(sss, single_ship) > 0:
             #         # single_ship = large_ship(board_in, m, n)
             #         # is_repeat(sss, single_ship)
             #         continue
@@ -237,8 +243,18 @@ def game(ships, n):
         guess_col = int(input("Please enter the column of the ship:"))
         guess.append((guess_row, guess_col))
         print(guess)
+        repeat_ship = is_repeat(ships, guess)
         # 猜中
-        if is_repeat(ships, guess):
+        if repeat_ship:
+            # 判断guess属于哪种类型的船
+            # 根据所在的船判断
+            if len(repeat_ship) == 1:
+                score = 5
+            elif len(repeat_ship) == 4:
+                score = 10
+            elif len(repeat_ship) == 12:
+                score = 20
+            print(score)
             print("Congratulations! You got it!")
             break
         # 未猜中，继续猜
@@ -246,7 +262,7 @@ def game(ships, n):
             # 情况一：数字范围
             if guess_row not in range(10) or \
                             guess_col not in range(10):
-                print("Notice: Please enter the number of row ranging from 0 to 9 and col ranging from 0 to 4")
+                print("Notice: Please enter the number ranging from 0 to 9 and ")
             # 情况二：重复猜测
             elif board[guess_row][guess_col] == "X":
                 print("Notice: You have guessed the location! Please try another!")
@@ -255,10 +271,15 @@ def game(ships, n):
                 print("You are wrong!")
                 board[guess_row][guess_col] = "X"
                 print_board(board)
+            # 三种未猜中的情况，分数都为0
+            score = 0
+            # 修改循环条件
             count += 1
-            # continue
-    if count > n:
-        print("Sorry, you have no chances! Game over! ")
+
+    print("Your score is {}".format(score))
+    # if count > n:
+    #     print("Sorry, you have no chances! Game over! ")
+
 
 
 n = 5
