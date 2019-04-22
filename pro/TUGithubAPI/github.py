@@ -10,10 +10,10 @@ class Github(object):
 if __name__ == '__main__':
     # NancyHui token 无法通过代码新建repo,没有给此token权限
     # github = Github(token='')
-    github = Github(username='NancyHui', password='')
+    github = Github(username='NancyHui', password='***')
 
     # chn0622 token
-    # github = Github(username='chn0622', password='chn432431')
+    # github = Github(username='chn0622', password='')
     # github = Github(token='')
 
     username = 'NancyHui'
