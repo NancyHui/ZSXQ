@@ -40,6 +40,7 @@ class RestClient(object):
         url = self.api_host + url
         if method_name == 'get':
             return self.session.get(url, **kwargs)
+        # 使用json=一个字典，最终显示在request的body中的内容类型为bytes类型
         elif method_name == 'post':
             return self.session.post(url, data, json, **kwargs)
         elif method_name == 'head':
@@ -49,9 +50,11 @@ class RestClient(object):
         elif method_name == 'put':
             return self.session.put(url, data, **kwargs)
         elif method_name == 'patch':
-            # 参数传入时，json是一个字典；通过以下方法将字典json转换为json字符串
+            # 参数传入时，json是一个字典；通过以下方法将字典json转换为json字符串，最终显示在request的body中的内容类型为json字符串（类似于字典，字符串使用双引号）
+            # 没有以下语句，json=一个字典中json内容没有传入patch中，因为request调用时json内容已经显式，**kwargs不会再传json
             if json:
                 data = json_parser.dumps(json)
+
             return self.session.patch(url, data, **kwargs)
         elif method_name == 'delete':
             return self.session.delete(url, **kwargs)

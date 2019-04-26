@@ -6,13 +6,14 @@ class Repos(RestClient):
         super(Repos, self).__init__(api_host, **kwargs)
 
     # 任意一个接口都是在授权登录之后才会生效的
-
+    # 1
     def list_your_repo(self, **kwargs):
         """
         https://developer.github.com/v3/repos/#list-your-repositories
         """
         return self.get('/user/repos', **kwargs)
 
+    # 2
     def list_user_repo(self, username, **kwargs):
         """
         https://developer.github.com/v3/repos/#list-user-repositories
@@ -20,6 +21,7 @@ class Repos(RestClient):
         """
         return self.get('/users/{}/repos'.format(username), **kwargs)
 
+    # 3
     def list_organization_repo(self, org, **kwargs):
         """
         https://developer.github.com/v3/repos/#list-organization-repositories
@@ -27,27 +29,32 @@ class Repos(RestClient):
         """
         return self.get('/orgs/{}/repos'.format(org), **kwargs)
 
+    # 4
     def list_all_public_repo(self, **kwargs):
         """
         https://developer.github.com/v3/repos/#list-all-public-repositories
         """
         return self.get('/repositories', **kwargs)
 
+    # 5-1
     def create_user_repo(self, **kwargs):
         """
         https://developer.github.com/v3/repos/#create
         """
         return self.post('/user/repos', **kwargs)
 
+    # 5-2
     def create_organization_repo(self, org, **kwargs):
         """
         https://developer.github.com/v3/repos/#create
         """
         return self.post('/orgs/{}/repos'.format(org), **kwargs)
 
+    # 7
     def get_repo(self, owner, repo, **kwargs):
         return self.get('/repos/{}/{}'.format(owner, repo), **kwargs)
 
+    # 8
     def edit_repo(self, owner, repo, **kwargs):
         """
         https://developer.github.com/v3/repos/#edit
@@ -55,6 +62,15 @@ class Repos(RestClient):
         :param repo: repo
         """
         return self.patch('/repos/{}/{}'.format(owner, repo), **kwargs)
+
+    def list_all_topics_for_a_repository(self, owner, repo, **kwargs):
+        """
+        :param owner: owner
+        :param repo: repo
+        """
+        self.get('/repos/{}/{}/topics'.format(owner, repo), **kwargs)
+
+
 
 # if __name__ == '__main__':
 #     host = 'https://api.github.com'

@@ -75,15 +75,16 @@ if __name__ == '__main__':
     # print(r7.status_code)
     # print(r7.text)
 
-    data8 = {
-        "name": "Hello-World",
-        "description": "This is your first repository",
-        "homepage": "https://github.com",
-        "private": True,
-        "has_issues": True,
-        "has_projects": True,
-        "has_wiki": True
-    }
-    r8 = github.repos.edit_repo(username, 'Hello-World-Test2', json=data8)
-    print(r8.status_code)
-    print(r8.text)
+    # data8 = {
+    #     "name": "Hello-World",
+    #     "description": "This is your first repository",
+    #     "homepage": "https://github.com",
+    #     "private": True,
+    #     "has_issues": True,
+    #     "has_projects": True,
+    #     "has_wiki": True
+    # }
+    # r8 = github.repos.edit_repo(username, 'Hello-World-Test2', json=data8)
+    # print(r8.status_code)
+    # print(r8.text)
+
